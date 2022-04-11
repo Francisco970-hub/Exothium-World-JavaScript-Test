@@ -13,8 +13,7 @@ classDiagram
       +setResources(class) bool
       +getResources() list
     }
-    Tile <|-- Animal
-    Tile <|-- Resource
+
 
     class Animal{
       String name
@@ -57,9 +56,7 @@ classDiagram
       +setConsequences(object) bool
       +getConsequences() object
     }
-    Actions <|-- Resource
-    Actions <|-- Animal
-    Actions <|-- Item
+  
 
     class Item{
       String name
@@ -70,10 +67,11 @@ classDiagram
       +setRecipe(class) bool
       +getRecipes() list
     }
-    Item <|-- Item
 
     
   
             
 
-[![](https://mermaid.ink/img/pako:eNqlVU1zgjAQ_SuZnGCqf8DpxdoenHHaqXLkEmFr00JQshwci7-9IQEMBOyHHJTZ9_brze5yolEWA53RKGFSPnK2y1kaCqIebSEBT-BkDIRsMOdiR_C4h8a04hLPmnqeC56yRA4ga5BZkUfQYncSMFBRPKkj-mSbZUkL7mrQJwa2veokng7s-jWwTxKV3nZsaxhzvRBs59L8VTKQ-6_plJgMfWvjHApbPMPtyydY2sq3FEgOBRPI8djYHlRhhMsV7EDELD_aXTwr31HRNDgk2mudwXN9LIiLjmBt_g0yLOSA7zVG2VWi0eevWvy2582tPffqnUfIMyF_KjdiEgOeDm1DwPLLPI7izmY4jCVC2qIv2w-I8LxQpcGhAKEcz7ePx6LuwlNquG4t6jsj0ulxbK-6JHcxe0JcDzO8pHYgrdf1IIbiBrBl9TIt9YAcNsknhta5FfXs9A-DA9mXpANU9XXHsbLcMItriPi-e33_Nykm0PgF1WmG7mfVgNtc9dsEMA-d0BTylPFYfZN0xyHFd1Bd0Zl6VcfmM6ShKBWv2McM4SnmmOV09qaGCyaUFZhtjiKiM8wLaEj1d61mld9Uozsi)](https://mermaid.live/edit#pako:eNqlVU1zgjAQ_SuZnGCqf8DpxdoenHHaqXLkEmFr00JQshwci7-9IQEMBOyHHJTZ9_brze5yolEWA53RKGFSPnK2y1kaCqIebSEBT-BkDIRsMOdiR_C4h8a04hLPmnqeC56yRA4ga5BZkUfQYncSMFBRPKkj-mSbZUkL7mrQJwa2veokng7s-jWwTxKV3nZsaxhzvRBs59L8VTKQ-6_plJgMfWvjHApbPMPtyydY2sq3FEgOBRPI8djYHlRhhMsV7EDELD_aXTwr31HRNDgk2mudwXN9LIiLjmBt_g0yLOSA7zVG2VWi0eevWvy2582tPffqnUfIMyF_KjdiEgOeDm1DwPLLPI7izmY4jCVC2qIv2w-I8LxQpcGhAKEcz7ePx6LuwlNquG4t6jsj0ulxbK-6JHcxe0JcDzO8pHYgrdf1IIbiBrBl9TIt9YAcNsknhta5FfXs9A-DA9mXpANU9XXHsbLcMItriPi-e33_Nykm0PgF1WmG7mfVgNtc9dsEMA-d0BTylPFYfZN0xyHFd1Bd0Zl6VcfmM6ShKBWv2McM4SnmmOV09qaGCyaUFZhtjiKiM8wLaEj1d61mld9Uozsi)
+    
+  
+            [![](https://mermaid.ink/img/pako:eNqlVctugzAQ_BXLJ1DzBbmlaQ-RolYNHLk4sKVuwU7wckARfHsd84iJIX0ELsgzs49hbZ9oLBOgSxpnTKknztKC5ZEg-jErJOQZnNoFQgIsuEgJVgfol7ZcYWOozUrwnGVqAtmBkmURw4A9KMBQR_GUieiTvZTZAKYd6JMWtlVdEs8EdnU97JNMp7eFQw1z0gvBFteROL8XQ9oM15YIlg-WbASSY8kEcqz6tUedjHC1hRREworKruxFa2eNMOCUEW9dBs_VWBAXIxOG_AEyLNWE9hajHjvRG_ZXL37bc3Bvz1f1rmLkUqifyo2ZwpDnUxMesuIyY7O4M-0OY4OQD-jr_hNibNa6NDiWILSwuX881l0XnnbDlQ2o74zIqMe5vTImuZvtyojbYaY3nh3I-HU7SEtxA9i2etJYPWGHTfJJSxtmiJDxHJ1T3TFEO4j5YXwU_u8Xt4HmjzOTxj3Mzh9tU8R66ILmUOSMJ_oyMN1FFD9Ad0CX-lOfCF8RjUSteeUhYQjPCUdZ0OW7ngBYUFaiDCoR0yUWJfSk7kLpWPU3auIR3g)](https://mermaid.live/edit#pako:eNqlVctugzAQ_BXLJ1DzBbmlaQ-RolYNHLk4sKVuwU7wckARfHsd84iJIX0ELsgzs49hbZ9oLBOgSxpnTKknztKC5ZEg-jErJOQZnNoFQgIsuEgJVgfol7ZcYWOozUrwnGVqAtmBkmURw4A9KMBQR_GUieiTvZTZAKYd6JMWtlVdEs8EdnU97JNMp7eFQw1z0gvBFteROL8XQ9oM15YIlg-WbASSY8kEcqz6tUedjHC1hRREworKruxFa2eNMOCUEW9dBs_VWBAXIxOG_AEyLNWE9hajHjvRG_ZXL37bc3Bvz1f1rmLkUqifyo2ZwpDnUxMesuIyY7O4M-0OY4OQD-jr_hNibNa6NDiWILSwuX881l0XnnbDlQ2o74zIqMe5vTImuZvtyojbYaY3nh3I-HU7SEtxA9i2etJYPWGHTfJJSxtmiJDxHJ1T3TFEO4j5YXwU_u8Xt4HmjzOTxj3Mzh9tU8R66ILmUOSMJ_oyMN1FFD9Ad0CX-lOfCF8RjUSteeUhYQjPCUdZ0OW7ngBYUFaiDCoR0yUWJfSk7kLpWPU3auIR3g)
