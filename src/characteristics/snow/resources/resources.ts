@@ -1,4 +1,4 @@
-class Resources {
+export class Resources {
     private _name: string;
     private _quantity: number;
 

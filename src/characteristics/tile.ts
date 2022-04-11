@@ -1,15 +1,17 @@
-class Tile {
+import {Animals} from "./snow/resources/animals";
+import {Resources} from "./snow/resources/resources";
+export class Tile {
     private _type: string;
     private _animalsList: Array<Animals>;
     private _resourcesList: Array<Resources>;
 
     constructor(type: string) {
-        this._type = "Tile";
+        this._type = type;
         this._animalsList= new Array<Animals>();
         this._resourcesList = new Array<Resources>();
     }
 
-    public get getType() {
+    public  getType() {
         return this._type;
     }
 
@@ -37,3 +39,4 @@ class Tile {
     }
 
   }
+

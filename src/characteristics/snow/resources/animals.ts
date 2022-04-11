@@ -1,4 +1,4 @@
-class Animals {
+export class Animals {
     private _name: string; // number
     private _quantity: number; // number
     private _isLegendary:boolean; // boolean
