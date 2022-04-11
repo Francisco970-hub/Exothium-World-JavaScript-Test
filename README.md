@@ -5,13 +5,13 @@ Testing mechanics for balancing
 classDiagram
     class Tile{
       String type
-      List~class~Animals
-      List~class~Resources
+      List~object~animals
+      List~object~resources
       +setType(string) bool
       +getType() string
-      +setAnimals(class) bool
+      +setAnimals(object) bool
       +getAnimals() list
-      +setResources(class) bool
+      +setResources(object) bool
       +getResources() list
     }
 
@@ -40,19 +40,19 @@ classDiagram
     class Actions{
       String name
       Int castTime
-      List~class~TargetAnimals
-      List~class~TargetResources
-      List~class~TargetItems
+      List~object~targetAnimals
+      List~object~targetResources
+      List~object~targetItems
       Object~Consequences~
       +setName(string) bool
       +getName() string
       +setCastTime(int) bool
       +getCastTime()) int
-      +setTargetAnimals(class) bool
+      +setTargetAnimals(object) bool
       +getTargetAnimals() list
-      +setTargetResources(class) bool
+      +setTargetResources(object) bool
       +getTargetResources() list
-      +setTargetItems(class) bool
+      +setTargetItems(object) bool
       +getTargetItems() list
       +setConsequences(object) bool
       +getConsequences() object
@@ -62,11 +62,8 @@ classDiagram
     class Item{
       String name
       Int castTime
-      List~class~Recipes
       +setName(string) bool
       +getName() string
-      +setRecipe(class) bool
-      +getRecipes() list
     }
 ```
 
