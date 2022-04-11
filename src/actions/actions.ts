@@ -1,4 +1,4 @@
-class Actions {
+class Action {
     private _name: string;
     private _castTime: number;
     private _targetAnimals:Array<Animals>;
