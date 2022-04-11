@@ -1,10 +1,12 @@
-class Resources {
-    private _name: string;
-    private _quantity: number;
+class Animals {
+    private _name: string; // number
+    private _quantity: number; // number
+    private _isLegendary:boolean; // boolean
 
-    constructor(quantity: number,name: string) {
-        this._name = "Resources";
-        this._quantity=0;
+    constructor(quantity:string,isLegendary:string,name: string) {
+      this._name = "Animals";
+      this._quantity = 0;
+      this._isLegendary =false;
     }
 
     public get getName() {
@@ -29,4 +31,11 @@ class Resources {
         this._quantity= value;
     }
 
+    public get getIsLengendary() {
+        return this._isLegendary;
+    }
+
+    public set setIsLengendary(value: boolean){
+        this._isLegendary= value;
+    }
   }
