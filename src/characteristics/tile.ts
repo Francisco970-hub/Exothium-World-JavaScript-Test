@@ -11,30 +11,42 @@ export class Tile {
         this._resourcesList = new Array<Resources>();
     }
 
-    public  getType() {
+    public get gtype() {
         return this._type;
     }
 
-    public set setType(type: string) {
-        if (type = "") {
+    public gNanimals(name:string) {
+        var n =0
+        this._animalsList.forEach((a) => {
+            if(a.gname == name){
+                //console.log(a.gname);
+                n++;
+            }
+        })
+        return n;
+    }
+
+    public set stype(type: string) {
+        if (type === "") {
             throw new Error('The type is invalid');
         }
+        //console.log(type);
         this._type = type;
     }
 
-    public get getAnimals() {
-        return this._animalsList;
+    public get ganimals() {
+        return this._animalsList.toString();
     }
 
-    public set setAnimals(value: Animals) {
+    public set sanimals(value: Animals) {
         this._animalsList.push(value);
     }
 
-    public get getResources() {
-        return this._resourcesList;
+    public get gresources() {
+        return this._resourcesList.toString();
     }
 
-    public set setResources(value: Resources) {
+    public set sresources(value: Resources) {
         this._resourcesList.push(value);
     }
 

@@ -2,7 +2,7 @@ class Recipe {
     private _recipe: string;
 
     constructor(recipe: string) {
-        this._recipe = "Recipe";
+        this._recipe = recipe;
     }
 
     public get getRecipe() {

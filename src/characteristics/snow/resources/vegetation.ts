@@ -1,9 +1,8 @@
-class Vegetation extends Resources{
+class Vegetation {
     private _name: string; // number
    
-    constructor(characteristics:string,title:string,name: string) {
-        super(characteristics,title);
-      this._name = "Vegetation";
+    constructor(name: string) {
+      this._name = name;
     }
 
     public get name() {
@@ -11,7 +10,7 @@ class Vegetation extends Resources{
     }
 
     public set name(name: string) {
-        if (name = "") {
+        if (name === "") {
             throw new Error('The name is invalid');
         }
         this._name = name;

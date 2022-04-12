@@ -3,9 +3,9 @@ class Item {
     private _castTime: number;
     private _recipes:Array<Recipe>;
 
-    constructor(namw: string,castTime: number) {
-        this._name = "Tile";
-        this._castTime= 0;
+    constructor(name: string,castTime: number) {
+        this._name = name;
+        this._castTime= castTime;
         this._recipes = new Array<Recipe>();
     }
 

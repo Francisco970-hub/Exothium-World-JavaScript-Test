@@ -12,7 +12,7 @@ export class Resources {
     }
 
     public set getName(name: string) {
-        if (name = "") {
+        if (name === "") {
             throw new Error('The name is invalid');
         }
         this._name = name;
