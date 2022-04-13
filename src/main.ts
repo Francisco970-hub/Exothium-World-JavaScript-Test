@@ -38,8 +38,8 @@ function main() {
   var Adesert: Array<Animals> = [gigantworm, snake];
   var Awater: Array<Animals> = [salmon, SP];
 
-  var tudo; 
-  tudo= {
+  var tudo;
+  tudo = {
     snow: Asnow,
     mountain: Amountain,
     forest: Aforest,
@@ -50,112 +50,67 @@ function main() {
   //console.log(tudo);
   //console.log(tudo.snow);
 
-  let direction = "N";
-  var pos: Array<number> = [1, 0];
-  multi[pos[0]][pos[1]].stype = "X";
-  while (
-    direction == "N" ||
-    direction == "S" ||
-    direction == "W" ||
-    direction == "E"
-  ) {
+  var pos: Array<number> = [0, 0];
+  console.log("Welcome to the game");
+  console.log("Starting...");
+  print(multi);
+  //let direction = prompt("Insert a direction: ");
+  //console.log(direction.toString());
+  let direction;
+  while (true) {
     try {
       var rn: number = Math.random() * (types.length - 0) + 0;
       //console.log(rn);
 
-      print(multi);
-      console.log(pos);
-      direction = prompt("Insert a direction: ");
+      if (pos[0] == 0 && pos[1] == 0 && multi[pos[0]][pos[1]].gtype.length < 2) {
+        console.log("Spawning...");
+        multi[0][0].stype = types[parseInt(rn.toString(), 10)];
+        multi = generateBiome(pos, multi, tudo);
+        print(multi);
+        printLengaLenga(multi[pos[0]][pos[1]]);
+        direction = prompt("Insert a direction: ");
+        if(checkDireaction(direction)) {
+        pos = izac(0, 0, direction)!;}
+        else{
+          break
+        }
+        console.log(pos);
+        
+      }
+      // validador que nao altera se la ja tiver algum objeto - verificacao feita pelo tamanho da string
       if (multi[pos[0]][pos[1]].gtype.length > 2) {
         multi[pos[0]][pos[1]].stype = multi[pos[0]][pos[1]].gtype;
-      }
-      //multi[pos[0]][pos[1]].stype = "X";
-      if (multi[pos[0]][pos[1]].gtype.length < 2) {
-        console.log(multi[pos[0]][pos[1]].gtype.length);
-        multi[pos[0]][pos[1]].stype = types[parseInt(rn.toString(), 10)];
-        console.log(multi[pos[0]][pos[1]].gtype);
-        /*for (let ty = 0; ty < types.length; ty++) {
-          if (multi[pos[0]][pos[1]].gtype === types[ty]) {
-            var sr: number = Math.random() * (types[ty].length - 0) + 0;
-            console.log(types[ty][parseInt(sr.toString())]);
-            var temp=types[ty]
-            multi = generateObjects(
-              `${temp}`,
-              tudo.value(temp),
-              Asnow[parseInt(sr.toString())],
-              pos,
-              multi
-            );
+        print(multi);
+        printLengaLenga(multi[pos[0]][pos[1]]);
+        direction = prompt("Insert a direction: ");
+        if(checkDireaction(direction)) {
+          pos = izac(pos[0], pos[1], direction)!;}
+          else{
+            break
           }
-        }*/
-        if (multi[pos[0]][pos[1]].gtype === "mountain") {
-          var mn: number = Math.random() * (Amountain.length - 0) + 0;
-          console.log(Amountain[parseInt(mn.toString())]);
-          multi = generateObjects(
-            "mountain",
-            Amountain,
-            Amountain[parseInt(mn.toString())],
-            pos,
-            multi
-          );
-        }
-        if (multi[pos[0]][pos[1]].gtype === "forest") {
-          var fn: number = Math.random() * (Aforest.length - 0) + 0;
-          console.log(Aforest[parseInt(fn.toString())]);
-          multi = generateObjects(
-            "forest",
-            Aforest,
-            Aforest[parseInt(fn.toString())],
-            pos,
-            multi
-          );
-        }
-        if (multi[pos[0]][pos[1]].gtype === "plain") {
-          var pn: number = Math.random() * (Aplain.length - 0) + 0;
-          console.log(Aplain[parseInt(pn.toString())]);
-          multi = generateObjects(
-            "plain",
-            Aplain,
-            Aplain[parseInt(pn.toString())],
-            pos,
-            multi
-          );
-        }
-        if (multi[pos[0]][pos[1]].gtype === "desert") {
-          var dn: number = Math.random() * (Adesert.length - 0) + 0;
-          console.log(Adesert[parseInt(dn.toString())]);
-          multi = generateObjects(
-            "desert",
-            Adesert,
-            Adesert[parseInt(dn.toString())],
-            pos,
-            multi
-          );
-        }
-        if (multi[pos[0]][pos[1]].gtype === "water") {
-          var wn: number = Math.random() * (Awater.length - 0) + 0;
-          console.log(Awater[parseInt(wn.toString())]);
-          multi = generateObjects(
-            "water",
-            Awater,
-            Awater[parseInt(wn.toString())],
-            pos,
-            multi
-          );
-        }
       }
-      console.log(
-        `Type: ${multi[pos[0]][pos[1]].gtype} Animals: ${
-          multi[pos[0]][pos[1]].ganimals
-        } Resources: ${multi[pos[0]][pos[1]].gresources}`
-      );
-      pos = izac(pos[0], pos[1], direction)!;
 
-      //print(multi)
+      if (multi[pos[0]][pos[1]].gtype.length < 2) {
+        //popula a cecula com random bioma
+        multi[pos[0]][pos[1]].stype = types[parseInt(rn.toString(), 10)];
+        multi = generateBiome(pos, multi, tudo);
+        print(multi);
+        printLengaLenga(multi[pos[0]][pos[1]]);
+        direction = prompt("Insert a direction: ");
+        if(checkDireaction(direction)) {
+          pos = izac(pos[0], pos[1], direction)!;}
+          else{
+            break
+          }
+      }
+
+      //Resources: ${multi[pos[0]][pos[1]].gresources}
     } catch (err) {
+      console.log(err);
+
       console.log("Invalid Position");
-      main();
       break;
+      main();
     }
   }
 }
@@ -197,6 +152,12 @@ function print(map: Array<Array<Tile>>) {
   });
 }
 
+function printLengaLenga(tile: Tile) {
+  console.log(
+    `Right now you r at a ${tile.gtype} biome with ${tile.ganimals.length} ${tile.ganimals[0].gname}s `
+  );
+}
+
 function generateObjects(
   biomaNome: string,
   bioma: Array<Animals>,
@@ -216,10 +177,10 @@ function generateObjects(
   if (animal.gname === "rabbit") {
     var rabbitrange = 0;
     if (biomaNome === "plain") {
-      boarrange = 5;
+      rabbitrange = 5;
     }
     if (biomaNome === "mountain" || biomaNome === "snow") {
-      boarrange = 10;
+      rabbitrange = 10;
     }
     var rabbitQuantity: number = Math.random() * (rabbitrange - 0) + 0;
     for (let v = 0; v < rabbitQuantity; v++) {
@@ -314,6 +275,107 @@ function generateObjects(
   return multi;
 }
 
+function generateBiome(
+  pos: Array<number>,
+  multi: Array<Array<Tile>>,
+  tudo: any
+) {
+  if (multi[pos[0]][pos[1]].gtype === "snow") {
+    //numero random que escolhe o animal
+    var sn: number = Math.random() * (tudo.snow.length - 0) + 0;
+
+    //console.log(tudo.snow[parseInt(sn.toString())]);
+
+    multi = generateObjects(
+      "snow",
+      tudo.snow,
+      tudo.snow[parseInt(sn.toString())],
+      pos,
+      multi
+    );
+  }
+  if (multi[pos[0]][pos[1]].gtype === "mountain") {
+    //numero random que escolhe o animal
+    var mn: number = Math.random() * (tudo.mountain.length - 0) + 0;
+
+    //console.log(tudo.mountain[parseInt(mn.toString())]);
+
+    multi = generateObjects(
+      "mountain",
+      tudo.mountain,
+      tudo.mountain[parseInt(mn.toString())],
+      pos,
+      multi
+    );
+  }
+  if (multi[pos[0]][pos[1]].gtype === "forest") {
+    //numero random que escolhe o animal
+    var fn: number = Math.random() * (tudo.forest.length - 0) + 0;
+
+    //console.log(tudo.forest[parseInt(fn.toString())]);
+
+    multi = generateObjects(
+      "forest",
+      tudo.forest,
+      tudo.forest[parseInt(fn.toString())],
+      pos,
+      multi
+    );
+  }
+  if (multi[pos[0]][pos[1]].gtype === "plain") {
+    //numero random que escolhe o animal
+    var pn: number = Math.random() * (tudo.plain.length - 0) + 0;
+
+    //console.log(tudo.plain[parseInt(pn.toString())]);
+
+    multi = generateObjects(
+      "plain",
+      tudo.plain,
+      tudo.plain[parseInt(pn.toString())],
+      pos,
+      multi
+    );
+  }
+  if (multi[pos[0]][pos[1]].gtype === "desert") {
+    //numero random que escolhe o animal
+    var dn: number = Math.random() * (tudo.desert.length - 0) + 0;
+
+    //console.log(tudo.desert[parseInt(dn.toString())]);
+
+    multi = generateObjects(
+      "desert",
+      tudo.desert,
+      tudo.desert[parseInt(dn.toString())],
+      pos,
+      multi
+    );
+  }
+  if (multi[pos[0]][pos[1]].gtype === "water") {
+    //numero random que escolhe o animal
+    var wn: number = Math.random() * (tudo.water.length - 0) + 0;
+
+    //console.log(tudo.water[parseInt(wn.toString())]);
+
+    multi = generateObjects(
+      "water",
+      tudo.water,
+      tudo.water[parseInt(wn.toString())],
+      pos,
+      multi
+    );
+  }
+  return multi;
+}
+
+function checkDireaction(direction: string){
+  if(direction === "N" ||
+  direction === "S" ||
+  direction === "W" ||
+  direction === "E"){
+    return true;
+  }
+}
 main();
 
 // npx ts-node main.ts
+//printar matriz de welcome, perguntar spawn , popular no spawn e adicionar prints relacionados aos objetos populados

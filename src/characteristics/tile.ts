@@ -35,7 +35,7 @@ export class Tile {
     }
 
     public get ganimals() {
-        return this._animalsList.toString();
+        return this._animalsList;
     }
 
     public set sanimals(value: Animals) {
@@ -43,7 +43,7 @@ export class Tile {
     }
 
     public get gresources() {
-        return this._resourcesList.toString();
+        return this._resourcesList;
     }
 
     public set sresources(value: Resources) {
