@@ -65,6 +65,24 @@ classDiagram
       +setName(string) bool
       +getName() string
     }
+    
+    class Character{
+      String name
+      Int hp
+      Int stamina
+      Int hunger
+      Int inventorySpace
+      +setName(string) bool
+      +getName() string
+      +setHp(int) bool
+      +getHp() int
+      +setStamina(int) bool
+      +getStamina() int
+      +setHunger(int) bool
+      +getHunger() int
+      +setInventorySpace(int) bool
+      +getInventorySpace() int
+    }
 ```
 
 
