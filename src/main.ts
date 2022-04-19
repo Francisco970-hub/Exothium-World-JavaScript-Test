@@ -1,11 +1,17 @@
 const prompt = require("prompt-sync")();
+const moment = require("moment");
 import { Tile } from "../src/characteristics/tile";
+import { Character } from "../src/character/character";
 import { Animals } from "../src/characteristics/snow/resources/animals";
 function main() {
+  let matrixSize:number= 3;
+  let dayMesure= 5;
+  let mesurePercentage:number = (dayMesure * 100)/1440;
+
   var multi: Tile[][] = new Array<Array<Tile>>();
-  for (var i: number = 0; i < 3; i++) {
+  for (var i: number = 0; i < matrixSize; i++) {
     multi[i] = [];
-    for (var j: number = 0; j < 3; j++) {
+    for (var j: number = 0; j < matrixSize; j++) {
       multi[i][j] = new Tile(`${0}`);
     }
   }
@@ -49,6 +55,19 @@ function main() {
   };
   //console.log(tudo);
   //console.log(tudo.snow);
+  var countDownDate= new Date().getTime()
+  var countDownDate2= moment(countDownDate).add(1,"minute");
+  console.log(moment(countDownDate));
+  console.log(countDownDate2);
+  
+
+  var onMove
+
+  var name= prompt("Insert your name player : ")
+  var p1 = new Character(name);
+
+  console.log(`Hello ${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`);
+  
 
   var pos: Array<number> = [0, 0];
   console.log("Welcome to the game");
@@ -70,11 +89,18 @@ function main() {
         printLengaLenga(multi[pos[0]][pos[1]]);
         direction = prompt("Insert a direction: ");
         if(checkDireaction(direction)) {
-        pos = izac(0, 0, direction)!;}
+          p1.takeStamina(1);
+          pos = izac(0, 0, direction)!;
+          onMove =new Date().getTime()
+          console.log(onMove);
+          console.log(countDownDate);
+          console.log(`Real Time :${(moment(onMove).diff(moment(countDownDate),'minutes',true))} minutes`);
+          console.log(`Game Time: ${24} hours`);
+          console.log(`${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`);
+        }
         else{
           break
         }
-        console.log(pos);
         
       }
       // validador que nao altera se la ja tiver algum objeto - verificacao feita pelo tamanho da string
@@ -84,10 +110,21 @@ function main() {
         printLengaLenga(multi[pos[0]][pos[1]]);
         direction = prompt("Insert a direction: ");
         if(checkDireaction(direction)) {
-          pos = izac(pos[0], pos[1], direction)!;}
+          p1.takeStamina(1);
+          pos = izac(pos[0], pos[1], direction)!;
+          onMove = new Date().getTime()
+          console.log(onMove);
+          console.log(countDownDate);
+          
+          console.log(`Real Time :${(moment(onMove).diff(moment(countDownDate),'minutes',true))} minutes`);
+          console.log(`Game Time: ${((moment(onMove).diff(moment(countDownDate),'minutes',true))*24)/dayMesure} hours`);
+          
+          console.log(`${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`);
+        }
           else{
             break
           }
+          
       }
 
       if (multi[pos[0]][pos[1]].gtype.length < 2) {
@@ -98,7 +135,15 @@ function main() {
         printLengaLenga(multi[pos[0]][pos[1]]);
         direction = prompt("Insert a direction: ");
         if(checkDireaction(direction)) {
-          pos = izac(pos[0], pos[1], direction)!;}
+          p1.takeStamina(1);
+          pos = izac(pos[0], pos[1], direction)!;
+          onMove = new Date().getTime()
+          console.log(onMove);
+          console.log(countDownDate);
+          console.log(`Real Time :${(moment(onMove).diff(moment(countDownDate),'minutes',true))} minutes`);
+          console.log(`Game Time: ${((moment(onMove).diff(moment(countDownDate),'minutes',true))*24)/dayMesure} hours`);
+          
+          console.log(`${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`);}
           else{
             break
           }
