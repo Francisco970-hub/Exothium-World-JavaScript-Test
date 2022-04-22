@@ -6,7 +6,7 @@ import { Animals } from "../src/characteristics/snow/resources/animals";
 
 let direction;
 var onMove;
-var cheats: boolean = true;
+var cheats: boolean = false;
 
 function main() {
   let matrixSize: number = 3;
@@ -90,6 +90,13 @@ function main() {
   }
 }
 
+function sleep(delay: number) {
+  console.log("Waiting...");
+  
+  var start = new Date().getTime();
+  while (new Date().getTime() < start + delay);
+}
+
 function makeAMove(
   pos: Array<number>,
   multi: Array<Array<Tile>>,
@@ -101,7 +108,7 @@ function makeAMove(
 ) {
   var rn: number = Math.random() * (types.length - 0) + 0;
 
-  console.log(pos);
+  //console.log(pos);
 
   try {
     if (pos[0] == 0 && pos[1] == 0 && multi[pos[0]][pos[1]].gtype.length < 2) {
@@ -112,18 +119,31 @@ function makeAMove(
       printLengaLenga(multi[pos[0]][pos[1]]);
       direction = prompt("Insert a direction: ");
       if (checkDireaction(direction)) {
-        p1.takeStamina(1);
-        pos = newPos(0, 0, direction)!;
-        onMove = new Date().getTime();
-        LogCalcTime(onMove, pos, countDownDate, dayMesure);
+        if (cheats) {
+          p1.takeStamina(1);
+          pos = newPos(0, 0, direction)!;
+          onMove = new Date().getTime();
+          LogCalcTime(onMove, pos, countDownDate, dayMesure);
 
-        console.log(
-          `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
-        );
+          console.log(
+            `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
+          );
+        } else {
+          sleep(210);
+          p1.takeStamina(1);
+          pos = newPos(0, 0, direction)!;
+          onMove = new Date().getTime();
+          LogCalcTime(onMove, pos, countDownDate, dayMesure);
+
+          console.log(
+            `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
+          );
+        }
       } else {
-        throw new Error("Invalid Direction");
+        console.log("0 On Make a move");
       }
-    }
+      }
+
     // validador que nao altera se la ja tiver algum objeto - verificacao feita pelo tamanho da string
     if (multi[pos[0]][pos[1]].gtype.length > 2) {
       multi[pos[0]][pos[1]].stype = multi[pos[0]][pos[1]].gtype;
@@ -131,16 +151,28 @@ function makeAMove(
       printLengaLenga(multi[pos[0]][pos[1]]);
       direction = prompt("Insert a direction: ");
       if (checkDireaction(direction)) {
-        p1.takeStamina(1);
-        pos = newPos(pos[0], pos[1], direction)!;
-        onMove = new Date().getTime();
-        LogCalcTime(onMove, pos, countDownDate, dayMesure);
+        if (cheats) {
+          p1.takeStamina(1);
+          pos = newPos(pos[0], pos[1], direction)!;
+          onMove = new Date().getTime();
+          LogCalcTime(onMove, pos, countDownDate, dayMesure);
 
-        console.log(
-          `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
-        );
+          console.log(
+            `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
+          );
+        } else {
+          sleep(210);
+          p1.takeStamina(1);
+          pos = newPos(pos[0], pos[1], direction)!;
+          onMove = new Date().getTime();
+          LogCalcTime(onMove, pos, countDownDate, dayMesure);
+
+          console.log(
+            `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
+          );
+        }
       } else {
-        throw new Error("Invalid Direction");
+        console.log("full On Make a move");
       }
     }
 
@@ -152,16 +184,28 @@ function makeAMove(
       printLengaLenga(multi[pos[0]][pos[1]]);
       direction = prompt("Insert a direction: ");
       if (checkDireaction(direction)) {
-        p1.takeStamina(1);
-        pos = newPos(pos[0], pos[1], direction)!;
-        onMove = new Date().getTime();
-        LogCalcTime(onMove, pos, countDownDate, dayMesure);
+        if (cheats) {
+          p1.takeStamina(1);
+          pos = newPos(pos[0], pos[1], direction)!;
+          onMove = new Date().getTime();
+          LogCalcTime(onMove, pos, countDownDate, dayMesure);
 
-        console.log(
-          `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
-        );
+          console.log(
+            `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
+          );
+        } else {
+          sleep(210);
+          p1.takeStamina(1);
+          pos = newPos(pos[0], pos[1], direction)!;
+          onMove = new Date().getTime();
+          LogCalcTime(onMove, pos, countDownDate, dayMesure);
+
+          console.log(
+            `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
+          );
+        }
       } else {
-        throw new Error("Invalid Direction");
+        console.log("empty On Make a move");
       }
     }
 
@@ -435,6 +479,8 @@ function checkDireaction(direction: string) {
     direction === "W" ||
     direction === "E"
   ) {
+    console.log(direction);
+    
     return true;
   }
 }
@@ -445,29 +491,27 @@ function LogCalcTime(
   firstTime: number,
   mesureNumber: number
 ) {
-  if(cheats === true) {
-    console.log(moment(time));
-     time = moment(time).add(1,"hours");
-    console.log(moment(firstTime));
-    
+  time = moment(time).add(1, "hours");
 
-    if (pos[0] === 0 && pos[1] === 0) {
-      console.log(
-        `Real Time :${moment(time)
-          .diff(moment(firstTime), "minutes", true)
-          .toFixed(2)} minutes`
-      );
-      console.log(`Game Time: ${24} hours`);
-    } else {
-      console.log(
-        `Real Time :${moment(time)
-          .diff(moment(firstTime), "minutes", true)
-          .toFixed(2)} minutes`
-      );
-      console.log(
-        `Game Time: ${(((moment(time)).diff(moment(firstTime),'minutes',true)*24)/mesureNumber).toFixed(2)} hours`
-      );
-    }
+  if (pos[0] === 0 && pos[1] === 0) {
+    console.log(
+      `Real Time :${moment(time)
+        .diff(moment(firstTime), "minutes", true)
+        .toFixed(2)} minutes`
+    );
+    console.log(`Game Time: ${24} hours`);
+  } else {
+    console.log(
+      `Real Time :${moment(time)
+        .diff(moment(firstTime), "minutes", true)
+        .toFixed(2)} minutes`
+    );
+    console.log(
+      `Game Time: ${(
+        (moment(time).diff(moment(firstTime), "minutes", true) * 24) /
+        mesureNumber
+      ).toFixed(2)} hours`
+    );
   }
 }
 
