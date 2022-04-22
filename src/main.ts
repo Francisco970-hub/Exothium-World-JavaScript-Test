@@ -5,12 +5,13 @@ import { Character } from "../src/character/character";
 import { Animals } from "../src/characteristics/snow/resources/animals";
 
 let direction;
-var onMove
+var onMove;
+var cheats: boolean = true;
 
 function main() {
-  let matrixSize:number= 3;
-  let dayMesure= 5;
-  let mesurePercentage:number = (dayMesure * 100)/1440;
+  let matrixSize: number = 3;
+  let dayMesure = 5;
+  let mesurePercentage: number = (dayMesure * 100) / 1440;
 
   var multi: Tile[][] = new Array<Array<Tile>>();
   for (var i: number = 0; i < matrixSize; i++) {
@@ -58,10 +59,9 @@ function main() {
     water: Awater,
   };
 
-  var countDownDate= new Date().getTime()
- 
+  var countDownDate = new Date().getTime();
 
-  var name= prompt("Insert your name player : ")
+  var name = prompt("Insert your name player : ");
   var p1 = new Character(name);
 
   var pos: Array<number> = [0, 0];
@@ -69,14 +69,19 @@ function main() {
   console.log("Starting...");
   print(multi);
 
-
   while (true) {
     try {
-      
-      let jogada=makeAMove(pos,multi,types,p1,countDownDate,dayMesure,tudo);
-      multi=jogada.multi
-      pos=jogada.pos
-      
+      let jogada = makeAMove(
+        pos,
+        multi,
+        types,
+        p1,
+        countDownDate,
+        dayMesure,
+        tudo
+      );
+      multi = jogada.multi;
+      pos = jogada.pos;
     } catch (err) {
       console.log(err);
       break;
@@ -85,14 +90,20 @@ function main() {
   }
 }
 
-function makeAMove(pos:Array<number>,multi: Array<Array<Tile>>,types:Array<string>,p1:Character,countDownDate:number,dayMesure:number,tudo:Object){
+function makeAMove(
+  pos: Array<number>,
+  multi: Array<Array<Tile>>,
+  types: Array<string>,
+  p1: Character,
+  countDownDate: number,
+  dayMesure: number,
+  tudo: Object
+) {
   var rn: number = Math.random() * (types.length - 0) + 0;
 
   console.log(pos);
-  
 
   try {
-    
     if (pos[0] == 0 && pos[1] == 0 && multi[pos[0]][pos[1]].gtype.length < 2) {
       console.log("Spawning...");
       multi[0][0].stype = types[parseInt(rn.toString(), 10)];
@@ -100,18 +111,18 @@ function makeAMove(pos:Array<number>,multi: Array<Array<Tile>>,types:Array<strin
       print(multi);
       printLengaLenga(multi[pos[0]][pos[1]]);
       direction = prompt("Insert a direction: ");
-      if(checkDireaction(direction)) {
+      if (checkDireaction(direction)) {
         p1.takeStamina(1);
         pos = newPos(0, 0, direction)!;
-        onMove =new Date().getTime()
-        LogCalcTime(onMove,pos,countDownDate,dayMesure);
+        onMove = new Date().getTime();
+        LogCalcTime(onMove, pos, countDownDate, dayMesure);
 
-        console.log(`${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`);
+        console.log(
+          `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
+        );
+      } else {
+        throw new Error("Invalid Direction");
       }
-      else{
-        throw new Error("Invalid Direction")
-      }
-      
     }
     // validador que nao altera se la ja tiver algum objeto - verificacao feita pelo tamanho da string
     if (multi[pos[0]][pos[1]].gtype.length > 2) {
@@ -119,18 +130,18 @@ function makeAMove(pos:Array<number>,multi: Array<Array<Tile>>,types:Array<strin
       print(multi);
       printLengaLenga(multi[pos[0]][pos[1]]);
       direction = prompt("Insert a direction: ");
-      if(checkDireaction(direction)) {
+      if (checkDireaction(direction)) {
         p1.takeStamina(1);
         pos = newPos(pos[0], pos[1], direction)!;
-        onMove = new Date().getTime()
-        LogCalcTime(onMove,pos,countDownDate,dayMesure);
+        onMove = new Date().getTime();
+        LogCalcTime(onMove, pos, countDownDate, dayMesure);
 
-        console.log(`${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`);
+        console.log(
+          `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
+        );
+      } else {
+        throw new Error("Invalid Direction");
       }
-        else{
-          throw new Error("Invalid Direction")
-        }
-        
     }
 
     if (multi[pos[0]][pos[1]].gtype.length < 2) {
@@ -140,27 +151,29 @@ function makeAMove(pos:Array<number>,multi: Array<Array<Tile>>,types:Array<strin
       print(multi);
       printLengaLenga(multi[pos[0]][pos[1]]);
       direction = prompt("Insert a direction: ");
-      if(checkDireaction(direction)) {
+      if (checkDireaction(direction)) {
         p1.takeStamina(1);
         pos = newPos(pos[0], pos[1], direction)!;
-        onMove = new Date().getTime()
-        LogCalcTime(onMove,pos,countDownDate,dayMesure);
-        
-        console.log(`${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`);}
-        else{
-          throw new Error("Invalid Direction")
-        }
+        onMove = new Date().getTime();
+        LogCalcTime(onMove, pos, countDownDate, dayMesure);
+
+        console.log(
+          `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
+        );
+      } else {
+        throw new Error("Invalid Direction");
+      }
     }
 
     //Resources: ${multi[pos[0]][pos[1]].gresources}
   } catch (err) {
     console.log(err);
 
-    throw new Error("Invalid Direction")
+    throw new Error("Invalid Direction");
     main();
   }
 
-  return {multi,pos};
+  return { multi, pos };
 }
 
 function newPos(x: number, y: number, direction: string) {
@@ -415,25 +428,49 @@ function generateBiome(
   return multi;
 }
 
-function checkDireaction(direction: string){
-  if(direction === "N" ||
-  direction === "S" ||
-  direction === "W" ||
-  direction === "E"){
+function checkDireaction(direction: string) {
+  if (
+    direction === "N" ||
+    direction === "S" ||
+    direction === "W" ||
+    direction === "E"
+  ) {
     return true;
   }
 }
 
-function LogCalcTime(time: number,pos:Array<number>,firstTime:number,mesureNumber:number){
-  if(pos[0] === 0 && pos[1] === 0){
-    console.log(`Real Time :${(moment(time).diff(moment(firstTime),'minutes',true)).toFixed(2)} minutes`);
-    console.log(`Game Time: ${24} hours`);
-  }
-  else{
-    console.log(`Real Time :${(moment(time).diff(moment(firstTime),'minutes',true)).toFixed(2)} minutes`);
-    console.log(`Game Time: ${((moment(time).diff(moment(firstTime),'minutes',true)*24)/mesureNumber).toFixed(2)} hours`);
+function LogCalcTime(
+  time: number,
+  pos: Array<number>,
+  firstTime: number,
+  mesureNumber: number
+) {
+  if(cheats === true) {
+    console.log(moment(time));
+     time = moment(time).add(1,"hours");
+    console.log(moment(firstTime));
+    
+
+    if (pos[0] === 0 && pos[1] === 0) {
+      console.log(
+        `Real Time :${moment(time)
+          .diff(moment(firstTime), "minutes", true)
+          .toFixed(2)} minutes`
+      );
+      console.log(`Game Time: ${24} hours`);
+    } else {
+      console.log(
+        `Real Time :${moment(time)
+          .diff(moment(firstTime), "minutes", true)
+          .toFixed(2)} minutes`
+      );
+      console.log(
+        `Game Time: ${(((moment(time)).diff(moment(firstTime),'minutes',true)*24)/mesureNumber).toFixed(2)} hours`
+      );
+    }
   }
 }
+
 main();
 
 // npx ts-node main.ts
