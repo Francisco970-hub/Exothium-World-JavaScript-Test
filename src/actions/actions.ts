@@ -1,3 +1,5 @@
+import {Animals} from "../characteristics/snow/resources/animals";
+import {Resources} from "../characteristics/snow/resources/resources";
 class Action {
     private _name: string;
     private _castTime: number;
