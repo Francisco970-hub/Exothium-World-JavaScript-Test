@@ -1,6 +1,4 @@
-import {Animals} from "../characteristics/snow/resources/animals";
-import {Resources} from "../characteristics/snow/resources/resources";
-class Actions {
+class Action {
     private _name: string;
     private _castTime: number;
     private _targetAnimals:Array<Animals>;
