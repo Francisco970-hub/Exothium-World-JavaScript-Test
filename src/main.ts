@@ -3,11 +3,11 @@ const moment = require("moment");
 import { Tile } from "../src/characteristics/tile";
 import { Character } from "../src/character/character";
 import { Animals } from "../src/characteristics/snow/resources/animals";
+import { Vegetation } from "../src/characteristics/snow/resources/vegetation";
 
 let direction;
 var onMove;
-var cheats: boolean = false;
-
+var cheats: boolean = true;
 function main() {
   let matrixSize: number = 3;
   let dayMesure = 5;
@@ -30,6 +30,17 @@ function main() {
     "water",
   ];
 
+  //vegetation
+
+  var bush = new Vegetation("Bush");
+  var tree = new Vegetation("Tree");
+  var looseStones = new Vegetation("Loose Stones");
+  var stoneNodes = new Vegetation("Stone Nodes");
+  var flintNodes = new Vegetation("Flint Nodes");
+
+  //var vegetation : Array<Vegetation> = [bush,tree,looseStones,stoneNodes,flintNodes];
+
+  //animals
   var wolf = new Animals(false, "Wolf");
   var rabbit = new Animals(false, "rabbit");
   var deer = new Animals(false, "deer");
@@ -59,6 +70,33 @@ function main() {
     water: Awater,
   };
 
+  var Vsnow: Array<Vegetation> = [bush, tree, looseStones, stoneNodes];
+  var Vmountain: Array<Vegetation> = [
+    bush,
+    looseStones,
+    stoneNodes,
+    flintNodes,
+  ];
+  var Vforest: Array<Vegetation> = [
+    bush,
+    tree,
+    looseStones,
+    stoneNodes,
+    flintNodes,
+  ];
+  var Vplain: Array<Vegetation> = [bush, tree, looseStones, stoneNodes];
+  var Vdesert: Array<Vegetation> = [stoneNodes];
+
+  var VEG;
+
+  VEG = {
+    s: Vsnow,
+    m: Vmountain,
+    f: Vforest,
+    p: Vplain,
+    d: Vdesert,
+  };
+
   var countDownDate = new Date().getTime();
 
   var name = prompt("Insert your name player : ");
@@ -78,7 +116,8 @@ function main() {
         p1,
         countDownDate,
         dayMesure,
-        tudo
+        tudo,
+        VEG
       );
       multi = jogada.multi;
       pos = jogada.pos;
@@ -91,8 +130,8 @@ function main() {
 }
 
 function sleep(delay: number) {
-  console.log("Waiting...");
-  
+  console.log("Traveling ...");
+
   var start = new Date().getTime();
   while (new Date().getTime() < start + delay);
 }
@@ -104,17 +143,18 @@ function makeAMove(
   p1: Character,
   countDownDate: number,
   dayMesure: number,
-  tudo: Object
+  tudo: Object,
+  vegetation: any
 ) {
   var rn: number = Math.random() * (types.length - 0) + 0;
-
-  //console.log(pos);
 
   try {
     if (pos[0] == 0 && pos[1] == 0 && multi[pos[0]][pos[1]].gtype.length < 2) {
       console.log("Spawning...");
-      multi[0][0].stype = types[parseInt(rn.toString(), 10)];
-      multi = generateBiome(pos, multi, tudo);
+      // multi[0][0].stype = types[parseInt(rn.toString(), 10)];
+      multi[0][0].stype = types[1];
+      multi = generateBiome(pos, multi, tudo, vegetation);
+      console.log("FEZ 0 0");
       print(multi);
       printLengaLenga(multi[pos[0]][pos[1]]);
       direction = prompt("Insert a direction: ");
@@ -129,7 +169,7 @@ function makeAMove(
             `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
           );
         } else {
-          sleep(210);
+          sleep(21000);
           p1.takeStamina(1);
           pos = newPos(0, 0, direction)!;
           onMove = new Date().getTime();
@@ -142,7 +182,7 @@ function makeAMove(
       } else {
         console.log("0 On Make a move");
       }
-      }
+    }
 
     // validador que nao altera se la ja tiver algum objeto - verificacao feita pelo tamanho da string
     if (multi[pos[0]][pos[1]].gtype.length > 2) {
@@ -161,7 +201,7 @@ function makeAMove(
             `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
           );
         } else {
-          sleep(210);
+          sleep(21000);
           p1.takeStamina(1);
           pos = newPos(pos[0], pos[1], direction)!;
           onMove = new Date().getTime();
@@ -178,8 +218,10 @@ function makeAMove(
 
     if (multi[pos[0]][pos[1]].gtype.length < 2) {
       //popula a cecula com random bioma
-      multi[pos[0]][pos[1]].stype = types[parseInt(rn.toString(), 10)];
-      multi = generateBiome(pos, multi, tudo);
+      // multi[pos[0]][pos[1]].stype = types[parseInt(rn.toString(), 10)];
+      multi[pos[0]][pos[1]].stype = types[1];
+      multi = generateBiome(pos, multi, tudo, vegetation);
+      console.log("FEZ 0 1");
       print(multi);
       printLengaLenga(multi[pos[0]][pos[1]]);
       direction = prompt("Insert a direction: ");
@@ -188,13 +230,15 @@ function makeAMove(
           p1.takeStamina(1);
           pos = newPos(pos[0], pos[1], direction)!;
           onMove = new Date().getTime();
+          console.log("FUDEU AQUI");
+
           LogCalcTime(onMove, pos, countDownDate, dayMesure);
 
           console.log(
             `${p1.gname} you have ${p1.ghp} hp , ${p1.gstamina} stamina`
           );
         } else {
-          sleep(210);
+          sleep(21000);
           p1.takeStamina(1);
           pos = newPos(pos[0], pos[1], direction)!;
           onMove = new Date().getTime();
@@ -258,12 +302,28 @@ function print(map: Array<Array<Tile>>) {
 }
 
 function printLengaLenga(tile: Tile) {
+  console.log("Lenga lenga" + tile.gresources.length);
+
+  console.log("tile A" + tile.ganimals);
+
+  console.log("tile R" + tile.gresources);
+
+  /*if(tile.gtype === 'water') {
+    console.log(
+      `Right now you r at a ${tile.gtype} biome with ${tile.ganimals.length} ${tile.ganimals[0].gname}s`
+    );
+  }
+  else{
   console.log(
-    `Right now you r at a ${tile.gtype} biome with ${tile.ganimals.length} ${tile.ganimals[0].gname}s `
-  );
+    `Right now you r at a ${tile.gtype} biome with ${tile.ganimals.length} ${
+      tile.ganimals[0].gname
+    }s and ${tile.gresources.length} ${
+      tile.gresources[tile.gresources.length - 1].gname
+    }s`
+  ); //;}*/
 }
 
-function generateObjects(
+function generateAnimals(
   biomaNome: string,
   bioma: Array<Animals>,
   animal: Animals,
@@ -272,7 +332,7 @@ function generateObjects(
 ) {
   if (animal.gname === "Wolf") {
     var Wolfrange = 2;
-    var WolfQuantity: number = Math.random() * (Wolfrange - 0) + 0;
+    var WolfQuantity: number = Math.random() * (Wolfrange - 1) + 1;
     for (let v = 0; v < WolfQuantity; v++) {
       //console.log(v);
 
@@ -287,7 +347,7 @@ function generateObjects(
     if (biomaNome === "mountain" || biomaNome === "snow") {
       rabbitrange = 10;
     }
-    var rabbitQuantity: number = Math.random() * (rabbitrange - 0) + 0;
+    var rabbitQuantity: number = Math.random() * (rabbitrange - 1) + 1;
     for (let v = 0; v < rabbitQuantity; v++) {
       //console.log(v);
       multi[pos[0]][pos[1]].sanimals = animal;
@@ -301,7 +361,7 @@ function generateObjects(
     if (biomaNome === "forest") {
       deerrange = 10;
     }
-    var deerQuantity: number = Math.random() * (deerrange - 0) + 0;
+    var deerQuantity: number = Math.random() * (deerrange - 1) + 1;
     for (let v = 0; v < deerQuantity; v++) {
       //console.log(v);
       multi[pos[0]][pos[1]].sanimals = animal;
@@ -309,7 +369,7 @@ function generateObjects(
   }
   if (animal.gname === "ram") {
     var ramrange = 2;
-    var ramQuantity: number = Math.random() * (ramrange - 0) + 0;
+    var ramQuantity: number = Math.random() * (ramrange - 1) + 1;
     for (let v = 0; v < ramQuantity; v++) {
       //console.log(v);
       multi[pos[0]][pos[1]].sanimals = animal;
@@ -318,7 +378,7 @@ function generateObjects(
   if (animal.gname === "snake") {
     var snakerange = 5;
 
-    var snakeQuantity: number = Math.random() * (snakerange - 0) + 0;
+    var snakeQuantity: number = Math.random() * (snakerange - 1) + 1;
     for (let v = 0; v < snakeQuantity; v++) {
       //console.log(v);
       multi[pos[0]][pos[1]].sanimals = animal;
@@ -326,7 +386,7 @@ function generateObjects(
   }
   if (animal.gname === "bear") {
     var bearrange = 2;
-    var bearQuantity: number = Math.random() * (bearrange - 0) + 0;
+    var bearQuantity: number = Math.random() * (bearrange - 1) + 1;
     for (let v = 0; v < bearQuantity; v++) {
       //console.log(v);
       multi[pos[0]][pos[1]].sanimals = animal;
@@ -340,7 +400,7 @@ function generateObjects(
     if (biomaNome === "plain") {
       boarrange = 10;
     }
-    var boarQuantity: number = Math.random() * (boarrange - 0) + 0;
+    var boarQuantity: number = Math.random() * (boarrange - 1) + 1;
     for (let v = 0; v < boarQuantity; v++) {
       //console.log(v);
       multi[pos[0]][pos[1]].sanimals = animal;
@@ -348,14 +408,14 @@ function generateObjects(
   }
   if (animal.gname === "hyena") {
     var hyenarange = 2;
-    var hyenaQuantity: number = Math.random() * (hyenarange - 0) + 0;
+    var hyenaQuantity: number = Math.random() * (hyenarange - 1) + 1;
     for (let v = 0; v < hyenaQuantity; v++) {
       multi[pos[0]][pos[1]].sanimals = animal;
     }
   }
   if (animal.gname === "gigantworm") {
     var gigantwormrange = 2;
-    var gigantwormQuantity: number = Math.random() * (gigantwormrange - 0) + 0;
+    var gigantwormQuantity: number = Math.random() * (gigantwormrange - 1) + 1;
     for (let v = 0; v < gigantwormQuantity; v++) {
       //console.log(v);
       multi[pos[0]][pos[1]].sanimals = animal;
@@ -363,14 +423,14 @@ function generateObjects(
   }
   if (animal.gname === "salmon") {
     var salmonrange = 10;
-    var salmonQuantity: number = Math.random() * (salmonrange - 0) + 0;
+    var salmonQuantity: number = Math.random() * (salmonrange - 1) + 1;
     for (let v = 0; v < salmonQuantity; v++) {
       multi[pos[0]][pos[1]].sanimals = animal;
     }
   }
   if (animal.gname === "SP") {
     var SPrange = 30;
-    var SPQuantity: number = Math.random() * (SPrange - 0) + 0;
+    var SPQuantity: number = Math.random() * (SPrange - 1) + 1;
     for (let v = 0; v < SPQuantity; v++) {
       //console.log(v);
       multi[pos[0]][pos[1]].sanimals = animal;
@@ -380,74 +440,265 @@ function generateObjects(
   return multi;
 }
 
+function generateVegetation(
+  pos: Array<number>,
+  range: number,
+  type: Vegetation,
+  multi: Array<Array<Tile>>,
+  desert?: boolean
+) {
+  console.log("entrou generate");
+
+  console.log("Range 1 : " + range);
+
+  if (range > 0) {
+    console.log("Range 2 :" + range);
+    var quantity = Math.random() * (range - 1) + 1;
+    console.log("Quantity:" + parseInt(quantity.toString()));
+
+    for (let v = 0; v < parseInt(quantity.toString()); v++) {
+      //console.log("V: "+ v);
+      //console.log(type);
+
+      multi[pos[0]][pos[1]].sresources = type;
+    }
+  }
+  if (desert) {
+    for (let l = 0; l <= 1; l++) {
+      // console.log("l: "+ l);
+      //console.log(type);
+
+      multi[pos[0]][pos[1]].sresources = type;
+    }
+  } else {
+    for (let l = 0; l <= 1; l++) {
+      // console.log("l: "+ l);
+      //console.log(type);
+
+      multi[pos[0]][pos[1]].sresources = type;
+    }
+  }
+
+  console.log(multi[pos[0]][pos[1]].gresources);
+
+  return multi;
+}
+
 function generateBiome(
   pos: Array<number>,
   multi: Array<Array<Tile>>,
-  tudo: any
+  tudo: any,
+  vegetation: any
 ) {
+  var bushRange;
+  var treeRange;
+  var looseRange;
+  var stoneRange;
+  var flintRange;
+  var veg;
+
   if (multi[pos[0]][pos[1]].gtype === "snow") {
+    veg = Math.random() * (vegetation.s.length - 1) + 1;
     //numero random que escolhe o animal
-    var sn: number = Math.random() * (tudo.snow.length - 0) + 0;
+    console.log(parseInt(veg.toString()));
 
-    //console.log(tudo.snow[parseInt(sn.toString())]);
+    var sn: number = Math.random() * (tudo.snow.length - 1) + 1;
+    bushRange = 20;
+    treeRange = 10;
+    looseRange = 5;
+    stoneRange = 2;
 
-    multi = generateObjects(
+    multi = generateAnimals(
       "snow",
       tudo.snow,
       tudo.snow[parseInt(sn.toString())],
       pos,
       multi
     );
+
+    if (vegetation.s[parseInt(veg.toString())].gname === "Bush") {
+      console.log("snow B");
+      multi = generateVegetation(
+        pos,
+        bushRange,
+        vegetation.s[parseInt(veg.toString())],
+        multi
+      );
+    }
+    if (vegetation.s[parseInt(veg.toString())].gname === "Tree") {
+      console.log("snow t");
+      multi = generateVegetation(
+        pos,
+        treeRange,
+        vegetation.s[parseInt(veg.toString())],
+        multi
+      );
+    }
+    if (vegetation.s[parseInt(veg.toString())].gname === "Loose Stones") {
+      console.log("Snow LS");
+      multi = generateVegetation(
+        pos,
+        looseRange,
+        vegetation.s[parseInt(veg.toString())],
+        multi
+      );
+    }
+    if (vegetation.s[parseInt(veg.toString())].gname === "Stone Nodes") {
+      console.log("Snow SN");
+      multi = generateVegetation(
+        pos,
+        stoneRange,
+        vegetation.s[parseInt(veg.toString())],
+        multi
+      );
+    }
   }
-  if (multi[pos[0]][pos[1]].gtype === "mountain") {
+  if (multi[pos[1]][pos[1]].gtype === "mountain") {
     //numero random que escolhe o animal
-    var mn: number = Math.random() * (tudo.mountain.length - 0) + 0;
+    veg = Math.random() * (vegetation.m.length - 1) + 1;
+    //numero random que escolhe o animal
+    console.log(parseInt(veg.toString()));
 
-    //console.log(tudo.mountain[parseInt(mn.toString())]);
+    var mn: number = Math.random() * (tudo.mountain.length - 1) + 1;
+    bushRange = 15;
+    looseRange = 15;
+    stoneRange = 4;
+    flintRange = 2;
 
-    multi = generateObjects(
+    multi = generateAnimals(
       "mountain",
       tudo.mountain,
       tudo.mountain[parseInt(mn.toString())],
       pos,
       multi
     );
+
+    if (vegetation.m[parseInt(veg.toString())].gname === "Bush") {
+      console.log("mountain B");
+      multi = generateVegetation(
+        pos,
+        bushRange,
+        vegetation.m[parseInt(veg.toString())],
+        multi
+      );
+    }
+    if (vegetation.m[parseInt(veg.toString())].gname === "Loose Stones") {
+      console.log("mountain LS");
+      multi = generateVegetation(
+        pos,
+        looseRange,
+        vegetation.m[parseInt(veg.toString())],
+        multi
+      );
+    }
+    if (vegetation.m[parseInt(veg.toString())].gname === "Stone Nodes") {
+      console.log("mountain SN");
+      multi = generateVegetation(
+        pos,
+        stoneRange,
+        vegetation.m[parseInt(veg.toString())],
+        multi
+      );
+    }
+    if (vegetation.m[parseInt(veg.toString())].gname === "Flint Nodes") {
+      console.log("mountain FN");
+      multi = generateVegetation(
+        pos,
+        flintRange,
+        vegetation.m[parseInt(veg.toString())],
+        multi
+      );
+    }
   }
-  if (multi[pos[0]][pos[1]].gtype === "forest") {
+  if (multi[pos[1]][pos[1]].gtype === "forest") {
     //numero random que escolhe o animal
-    var fn: number = Math.random() * (tudo.forest.length - 0) + 0;
+    var fn: number = Math.random() * (tudo.forest.length - 1) + 1;
+    veg = Math.random() * (vegetation.f.length - 1) + 1;
 
-    //console.log(tudo.forest[parseInt(fn.toString())]);
+    console.log(parseInt(veg.toString()));
+    treeRange = 31;
+    bushRange = 11;
+    looseRange = 5;
+    stoneRange = 3;
+    flintRange = 1;
 
-    multi = generateObjects(
+    multi = generateAnimals(
       "forest",
       tudo.forest,
       tudo.forest[parseInt(fn.toString())],
       pos,
       multi
     );
+
+    if (vegetation.f[parseInt(veg.toString())].gname === "Bush") {
+      console.log("Forest B");
+      // multi = generateVegetation(pos,bushRange,vegetation.f[parseInt(veg.toString())],multi)
+    }
+    if (vegetation.f[parseInt(veg.toString())].gname === "Tree") {
+      console.log("Forest T");
+      // multi = generateVegetation(pos,treeRange,vegetation.f[parseInt(veg.toString())],multi)
+    }
+    if (vegetation.f[parseInt(veg.toString())].gname === "Flint Nodes") {
+      console.log("Forest FN");
+      // multi = generateVegetation(pos,flintRange,vegetation.f[parseInt(veg.toString())],multi)
+    }
+    if (vegetation.f[parseInt(veg.toString())].gname === "Loose Stones") {
+      console.log("Forest LS");
+      // multi = generateVegetation(pos,looseRange,vegetation.f[parseInt(veg.toString())],multi)
+    }
+    if (vegetation.f[parseInt(veg.toString())].gname === "Stone Nodes") {
+      console.log("Forest SN");
+      // multi = generateVegetation(pos,stoneRange,vegetation.f[parseInt(veg.toString())],multi)
+    }
   }
-  if (multi[pos[0]][pos[1]].gtype === "plain") {
+  if (multi[pos[1]][pos[1]].gtype === "plain") {
     //numero random que escolhe o animal
-    var pn: number = Math.random() * (tudo.plain.length - 0) + 0;
+    var pn: number = Math.random() * (tudo.plain.length - 1) + 1;
+    veg = Math.random() * (vegetation.p.length - 1) + 1;
 
-    //console.log(tudo.plain[parseInt(pn.toString())]);
+    console.log(parseInt(veg.toString()));
+    treeRange = 5;
+    bushRange = 3;
+    looseRange = 11;
+    stoneRange = 3;
 
-    multi = generateObjects(
+    multi = generateAnimals(
       "plain",
       tudo.plain,
       tudo.plain[parseInt(pn.toString())],
       pos,
       multi
     );
+
+    if (vegetation.p[parseInt(veg.toString())].gname === "Bush") {
+      console.log("plain B");
+      // multi = generateVegetation(pos,bushRange,vegetation.p[parseInt(veg.toString())],multi)
+    }
+    if (vegetation.p[parseInt(veg.toString())].gname === "Tree") {
+      console.log("Plain T");
+      // multi = generateVegetation(pos,treeRange,vegetation.p[parseInt(veg.toString())],multi)
+    }
+    if (vegetation.p[parseInt(veg.toString())].gname === "Loose Stones") {
+      console.log("plsin LS");
+      // multi = generateVegetation(pos,looseRange,vegetation.p[parseInt(veg.toString())],multi)
+    }
+    if (vegetation.p[parseInt(veg.toString())].gname === "Stone Nodes") {
+      console.log("plain SN");
+      // multi = generateVegetation(pos,stoneRange,vegetation.p[parseInt(veg.toString())],multi)
+    }
   }
-  if (multi[pos[0]][pos[1]].gtype === "desert") {
+  if (multi[pos[1]][pos[1]].gtype === "desert") {
     //numero random que escolhe o animal
-    var dn: number = Math.random() * (tudo.desert.length - 0) + 0;
+    var dn: number = Math.random() * (tudo.desert.length - 1) + 1;
+    stoneRange = 4;
 
-    //console.log(tudo.desert[parseInt(dn.toString())]);
+    if (vegetation.d[0].gname === "Stone Nodes") {
+      console.log("Desert SN");
 
-    multi = generateObjects(
+      // multi = generateVegetation(pos,stoneRange,vegetation.d[0],multi,true)
+    }
+
+    multi = generateAnimals(
       "desert",
       tudo.desert,
       tudo.desert[parseInt(dn.toString())],
@@ -457,11 +708,9 @@ function generateBiome(
   }
   if (multi[pos[0]][pos[1]].gtype === "water") {
     //numero random que escolhe o animal
-    var wn: number = Math.random() * (tudo.water.length - 0) + 0;
+    var wn: number = Math.random() * (tudo.water.length - 1) + 1;
 
-    //console.log(tudo.water[parseInt(wn.toString())]);
-
-    multi = generateObjects(
+    multi = generateAnimals(
       "water",
       tudo.water,
       tudo.water[parseInt(wn.toString())],
@@ -479,8 +728,8 @@ function checkDireaction(direction: string) {
     direction === "W" ||
     direction === "E"
   ) {
-    console.log(direction);
-    
+    //console.log(direction);
+
     return true;
   }
 }

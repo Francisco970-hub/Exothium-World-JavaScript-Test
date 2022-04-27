@@ -1,14 +1,15 @@
 import {Animals} from "./snow/resources/animals";
 import {Resources} from "./snow/resources/resources";
+import {Vegetation} from "./snow/resources/vegetation";
 export class Tile {
     private _type: string;
     private _animalsList: Array<Animals>;
-    private _resourcesList: Array<Resources>;
+    private _resourcesList: Array<Vegetation>;
 
     constructor(type: string) {
         this._type = type;
         this._animalsList= new Array<Animals>();
-        this._resourcesList = new Array<Resources>();
+        this._resourcesList = new Array<Vegetation>();
     }
 
     public get gtype() {
@@ -46,7 +47,7 @@ export class Tile {
         return this._resourcesList;
     }
 
-    public set sresources(value: Resources) {
+    public set sresources(value: Vegetation) {
         this._resourcesList.push(value);
     }
 

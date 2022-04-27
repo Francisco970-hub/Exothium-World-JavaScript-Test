@@ -1,15 +1,15 @@
-class Vegetation {
+export class Vegetation {
     private _name: string; // number
    
     constructor(name: string) {
       this._name = name;
     }
 
-    public get name() {
+    public get gname() {
         return this._name;
     }
 
-    public set name(name: string) {
+    public set sname(name: string) {
         if (name === "") {
             throw new Error('The name is invalid');
         }
